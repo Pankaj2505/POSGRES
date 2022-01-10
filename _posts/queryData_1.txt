@@ -1,0 +1,138 @@
+
+
+### Topic to Cover 
+
+	1. Select – show you how to query data from a single table.
+	2. Column aliases – learn how to assign temporary names to columns or expressions in a query.
+	3. Order By – guide you on how to sort the result set returned from a query.
+	4. Select Distinct  – provide you a clause that removes duplicate rows in the result set.
+
+
+#### select statement
+		- Select distinct rows using DISTINCT operator.
+		- Sort rows usingORDER BY clause.
+		- Filter rows using WHERE clause.
+		- Select a subset of rows from a table using LIMIT or FETCH clause.
+		- Group rows into groups using GROUP BY clause.
+		- Filter groups using HAVING clause.
+		- Join with other tables using joins such as INNER JOIN, LEFT JOIN, FULL OUTER JOIN, CROSS JOIN clauses.
+		- Perform set operations using UNION, INTERSECT, and EXCEPT.
+	
+		> Why * is not good?
+		```
+			select * from table
+		```
+		- it is not a good practice to use the asterisk (*) in the SELECT statement when you embed SQL statements in the application code like Python, Java, Node.js, or PHP due to the following reasons:
+			- __Database performance__. Suppose you have a table with many columns and a lot of data, the SELECT statement with the asterisk (*) shorthand will select data from all the columns of the table, which may not be necessary to the application.
+			- __Application performance__. Retrieving unnecessary data from the database increases the traffic between the database server and application server. In consequence, your applications may be slower to respond and less scalable.
+			
+	
+		> Concatantion operator ||
+		```
+			select firsrname || ' ' || lastname
+			from table
+		```
+	
+#### Alias
+		
+		- Alias name with out space
+		```
+			SELECT column_name AS alias_name
+			FROM table_name;
+			
+			SELECT 
+			   first_name, 
+			   last_name surname
+			FROM customer;
+		```
+		- Alias name with space	
+		```
+			SELECT
+				first_name || ' ' || last_name "full name"
+			FROM
+				customer;
+		```
+		
+		- ALias for table 
+			```
+				SELECT
+					e.first_name employee,
+					m .first_name manager
+				FROM
+					employee e
+				INNER JOIN employee m 
+					ON m.employee_id = e.manager_id
+				ORDER BY manager;
+			```
+#### order by
+		- multiple column sorting
+		```
+		SELECT
+			first_name,
+			last_name
+		FROM
+			customer
+		ORDER BY
+			first_name ASC,
+			last_name DESC;
+		```
+		
+		
+		- Sort by expressions
+		```
+		SELECT 
+			first_name,
+			LENGTH(first_name) len
+		FROM
+			customer
+		ORDER BY 
+			len DESC;
+		```
+		
+		
+		- Sort if null is present 
+			- When you sort rows that contains NULL, you can specify the order of NULL with other non-null values by using the 
+				- NULLS FIRST 
+				- NULLS LAST 
+		```
+		SELECT num
+		FROM sort_demo
+		ORDER BY num NULLS FIRST;
+		```
+			
+		1. sorting based on single column 
+		2. sorting based on multiple column		
+			- you need to place a comma (,) between two columns or expressions to separate them.
+		3. use the ASC option to sort rows in ascending order 
+		4. use the DESC option to sort rows in descending order.
+		5. by default ORDER BY uses ASC by default.
+		
+#### Distinct
+		- select based on single column
+			- fetch distinct rows based on one column
+				``` 
+					SELECT
+					   DISTINCT column1
+					FROM
+					   table_name;
+				```
+		- select based on multiple column
+			- fetch distinct rows based on combination of column
+				```
+					SELECT
+					   DISTINCT column1, column2
+					FROM
+					   table_name;
+				```
+		- DISTINCT ON (expression) to keep the “first” row of each group of duplicates 	
+			
+				```
+				SELECT
+				   DISTINCT ON (column1) column_alias,
+				   column2
+				FROM
+				   table_name
+				ORDER BY
+				   column1,
+				   column2;
+				```

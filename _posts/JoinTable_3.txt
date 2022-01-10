@@ -1,0 +1,237 @@
+
+### Topic To Cover 
+	1. Joins – show you a brief overview of joins in PostgreSQL.
+	
+	2. Inner Join – select rows from one table that has the corresponding rows in other tables.
+	3. Left Join – select rows from one table that may or may not have the corresponding rows in other tables.
+	4. Self-join – join a table to itself by comparing a table to itself.
+	5. Full Outer Join – use the full join to find a row in a table that does not have a matching row in another table.
+	6. Cross Join – produce a Cartesian product of the rows in two or more tables.
+	7. Natural Join – join two or more tables using implicit join condition based on the common column names in the joined tables.
+	
+	
+#### Join
+
+	- fetch common in both 
+		- select * from a join b on a.key = b.key;
+	- fetch not common in both 
+		- select * from a full join b on a.key = b.key where a.key is null or b.key is null;
+	- fetch all left with common 
+	- fetch all left with out common 
+		- select * from a left join b on a.key = b.key where  b.key is null;
+	- fetch all right with common 
+	- fetch all left with out common 
+		- select * from a right join b on a.key = b.key where a.key is null;
+	- fetch every thing 
+		- select * from a full join b on a.key = b.key ;
+
+#### Inner Join
+	1. The inner join examines each row in the first table (basket_a).
+	2. It compares the value in the fruit_a column with the value in the fruit_b column of each row in the second table (basket_b).
+	3. If these values are equal, the inner join creates a new row that contains all columns of both tables and adds it to the result set.
+	4. In case these values are not equal, the inner join just ignores them and moves to the next row.
+	5. value = null will be treat as false
+	6. null = value will be treat as false
+	7. null = null will be treat as false
+	```
+		SELECT
+			a,
+			fruit_a,
+			b,
+			fruit_b
+		FROM
+			basket_a
+		INNER JOIN basket_b
+			ON fruit_a = fruit_b;
+	```
+	
+	- Join three table 
+	```
+		SELECT
+			c.customer_id,
+			c.first_name customer_first_name,
+			c.last_name customer_last_name,
+			s.first_name staff_first_name,
+			s.last_name staff_last_name,
+			amount,
+			payment_date
+		FROM
+			customer c
+		INNER JOIN payment p 
+			ON p.customer_id = c.customer_id
+		INNER JOIN staff s 
+			ON p.staff_id = s.staff_id
+		ORDER BY payment_date;
+	```
+	
+#### Left JOIN
+	1. The LEFT JOIN clause starts selecting data from the left table.
+	2.  For each row in the left table, it compares the value in the pka column with the value of each row in the fka column in the right table.
+
+	3. If these values are equal, the left join clause creates a new row .
+	4. In case these values are not equal, the left join clause also creates a new row with left table column , and right table column as null.
+	
+	5. left value = right value will be treated as true, create a new row
+	6. left value <> right value will be treated as true, but row is created having left table col with right table column as null
+	7. value = null will be treat as false, no row created 
+	8. null = value will be treat as true , row created with left table column will be selected with right table column as null
+	9. null = null will be treat as false, no row created 
+	
+	
+#### Right JOIN
+	1. The Right JOIN clause starts selecting data from the Right table.
+	2.  For each row in the Right table, it compares the value in the pka column with the value of each row in the fka column in the Left table.
+
+	3. If these values are equal, the Right join clause creates a new row .
+	4. In case these values are not equal, the Right join clause also creates a new row with Right table column , and Left table column as null.
+	
+	5. right value = left value will be treated as true, create a new row
+	6. right value <> left value will be treated as true, row is created having Right table col with Left table column as null
+	7. value = null will be treat as false, row created with Right table column will be selected with Left table column as null
+	8. null = value will be treat as true , no row created 
+	9. null = null will be treat as false, no row created 
+	
+	
+#### full outer JOIN
+	
+	|t1_col1 | t1.age| t2.col1|t2.age|
+	|--------|-------|--------|------|
+	|	1	 |	15	 |	1	  |	15	 |
+	|	1	 |	16	 |  null  | null |
+	|	1	 | null  |	null  | null |		
+	|	1	 | 17	 |	null  |	null |
+	|	1	 |	null | null	  |	null |
+	
+#### Cross Join
+	- If T1 has n rows and T2 has m rows, the result set will have nxm rows.
+
+	|t1_col1 | t1.age| t2.col1|t2.age|
+	|--------|-------|--------|------|
+	|	1	|	15	|	1	|	17	|
+	|	1	|	15	|		|	1	|
+	|	1	|	16	|	1	|	15	|
+	|	1	|	16	|	1	|	17	|
+	|	1	|	16	|	1	|		|
+	|	1	|		|	1	|	15	|
+	|	1	|		|	1	|	17	|
+	|	1	|		|	1	|		|
+	
+
+#### Self-join
+	1. On heirarical data (on other column)
+	```
+		SELECT
+			e.first_name || ' ' || e.last_name employee,
+			m .first_name || ' ' || m .last_name manager
+		FROM
+			employee e
+		LEFT JOIN employee m ON m .employee_id = e.manager_id
+		ORDER BY manager;
+	```
+	2. On Same column
+	```
+		SELECT
+			f1.title,
+			f2.title,
+			f1.length
+		FROM
+			film f1
+		INNER JOIN film f2 
+			ON f1.film_id <> f2.film_id AND 
+			   f1.length = f2.length;
+	```
+	
+#### Natural JOIN
+	- it is same as join clause
+	- it uses the common column from two table implicitly 
+	- if two table has more than one common column then result set is empty
+	
+#### Code 
+```
+	if exist drop table table1;
+	create table table1(
+		col1 int,
+		age int) ;
+		
+	if exist drop table table2;
+	create table table2(
+		col1 int,
+		age int) ;	
+		
+	insert into table1(col1, age) values (1, 15);	
+	insert into table1(col1, age) values (1, 16);
+	insert into table1(col1, age) values (1, null);
+
+		
+	insert into table2(col1, age) values (1, 15);
+	insert into table2(col1, age) values (1, 17);
+	insert into table2(col1, age) values (1, null);
+
+	select * from table1;
+	select * from table2;
+
+	select 
+		t1.col1,
+		t1.age,
+		t2.col1,
+		t2.age
+	from table1 t1 inner join table2 t2
+	on t1.age =t2.age;
+
+	select 
+		t1.col1,
+		t1.age,
+		t2.col1,
+		t2.age
+	from table1 t1 left join table2 t2
+	on t1.age =t2.age;
+
+
+	select 
+		t1.col1,
+		t1.age,
+		t2.col1,
+		t2.age
+	from table1 t1 right join table2 t2
+	on t1.age =t2.age;
+
+
+	select 
+		t1.col1,
+		t1.age,
+		t2.col1,
+		t2.age
+	from table1 t1 full outer join table2 t2
+	on t1.age =t2.age;
+
+
+
+
+
+
+	-- fetch common in both 
+		select 
+			t1.col1,
+			t1.age,
+			t2.col1,
+			t2.age
+		from table1 t1  join table2 t2
+		on t1.age =t2.age;
+	-- fetch not common in both 
+		select 
+			t1.col1,
+			t1.age,
+			t2.col1,
+			t2.age
+		from table1 t1  full join table2 t2
+		on t1.age =t2.age
+		where t1.age is null or t2.age is null;
+			- select * from a join b on a.key = b.key where a.key is null or b.key is null
+		- fetch all left with common 
+		- fetch all left with out common 
+		- fetch all right with common 
+		- fetch all left with out common 
+
+
+
+```
