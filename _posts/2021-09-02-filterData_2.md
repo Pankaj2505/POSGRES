@@ -1,4 +1,9 @@
-
+---
+layout: post
+title:  "Filter data"
+date:   2021-09-02 09:04:08 +0530
+categories: Notes
+---
 
 ### Topic to Cover 
 	1. Where – filter rows based on a specified condition.
