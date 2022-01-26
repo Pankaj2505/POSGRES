@@ -2,8 +2,8 @@
 layout: post
 title:  "2-Filter data"
 date:   2021-09-02 09:04:08 +0530
-categories: Notes
-permalink: '/postgres/filterdata'
+categories: postgres
+permalink: /:categories/:title
 ---
 
 ### Topic to Cover 

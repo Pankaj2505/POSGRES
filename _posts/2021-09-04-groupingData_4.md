@@ -2,8 +2,8 @@
 layout: post
 title:  "4-Grouping Data"
 date:   2021-09-04 09:04:08 +0530
-categories: Notes
-permalink: '/postgres/groupingdata'
+categories: postgres
+permalink: /:categories/:title
 ---
 ### Topic To Cover 
     - order of execution 

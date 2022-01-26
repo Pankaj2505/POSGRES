@@ -2,8 +2,8 @@
 layout: post
 title:  "6-Window Function"
 date:   2021-09-06 09:04:08 +0530
-categories: Notes
-permalink: '/postgres/windowfunction'
+categories: postgres
+permalink: /:categories/:title
 ---
 ### Topic To Cover 
    1. Row_Number

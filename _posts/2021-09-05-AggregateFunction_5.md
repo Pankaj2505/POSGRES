@@ -2,8 +2,8 @@
 layout: post
 title:  "5-Aggregate Function"
 date:   2021-09-05 09:04:08 +0530
-categories: Notes
-permalink: '/postgres/aggregatefunction'
+categories: postgres
+permalink: /:categories/:title
 ---
 ### Topic To Cover 
     1. Count
